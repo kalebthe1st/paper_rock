@@ -8,10 +8,11 @@ function playRound(playerSelection, computerSelection) {
         return "Draw " + playerSelection + " equals " + computerSelection
     }
     else {
-        if (playerSelection === "rock" && computerSelection === "scissor") {
+        if (playerSelection === "rock" && computerSelection === "scissors") {
+            // heading.textContent = "You win! " + playerSelection + " beats " + computerSelection;
             pla++;
             return "You win! " + playerSelection + " beats " + computerSelection;
-        } else if (playerSelection === "scissor" && computerSelection === "paper") {
+        } else if (playerSelection === "scissors" && computerSelection === "paper") {
             pla++;
             return "You win! " + playerSelection + " beats " + computerSelection;
         } else if (playerSelection === "paper" && computerSelection === "rock") {
@@ -37,7 +38,7 @@ function getComputerChoice() {
             break;
 
         case 1:
-            return "scissor"
+            return "scissors"
             break;
 
         // include as many cases as you like
@@ -49,11 +50,11 @@ function getComputerChoice() {
 }
 function score() {
     if (com > pla) {
-        console.log("The winner is computer by a score of " + com + " - " + pla);
+        return ("The winner is computer by a score of " + com + " - " + pla);
 
     }
     else {
-        console.log("You win by a score of " + pla + " - " + com);
+        return ("You win by a score of " + pla + " - " + com);
 
     }
 }
@@ -62,8 +63,13 @@ function game() {
     com = 0;
     pla = 0;
 
-    const heading = document.querySelector('#player');
-    heading.textContent = `${pla} - ${com}`;
+    const player = document.querySelector('#player');
+    player.textContent = pla;
+    const computer = document.querySelector('#com');
+    computer.textContent = com;
+    const playerIcon = document.querySelector('.player-icon');
+    const comIcon = document.querySelector('.com-icon');
+    const heading = document.querySelector('h3');
 
 
 
@@ -79,25 +85,35 @@ function game() {
             if (button.id !== "start") {
 
                 choiceplayer = (button.id);
-                alert(choiceplayer);
+
                 playerSelection = choiceplayer.toLowerCase();
                 computerSelection = getComputerChoice();
 
 
-                console.log(playRound(playerSelection, computerSelection))
-                heading.textContent = `${pla} - ${com}`;
 
 
+                playerIcon.innerHTML = `<i class="fa fa-hand-${playerSelection}-o" aria-hidden="true"></i>`;
+
+                comIcon.innerHTML = `<i class="fa fa-hand-${computerSelection}-o" aria-hidden="true"></i>`;
+
+                const scoreInfo = playRound(playerSelection, computerSelection);
                 if (com === 5 || pla === 5) {
-                    score();
+                    heading.textContent = score();
                     com = 0;
                     pla = 0;
                 }
-
+                else {
+                    heading.textContent = scoreInfo;
+                }
+                player.textContent = pla;
+                computer.textContent = com;
             }
             else if (button.id === 'start') {
                 com = 0;
                 pla = 0;
+                player.textContent = pla;
+                computer.textContent = com;
+
             }
         });
 
